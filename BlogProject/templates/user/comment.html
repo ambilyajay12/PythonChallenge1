@@ -1,0 +1,101 @@
+{% extends 'user/base1.html' %}
+{% load static %}
+{% block content %}
+<h4>UserPage</h4>
+<div class="container">
+        <div class="row">
+        <div class="col-12">
+		<table class="table table-image">
+		  <thead>
+		    <tr>
+		      <th scope="col">#</th>
+		      <th scope="col">Image</th>
+		      <th scope="col">Shares</th>
+              <th scope="col">No.of Comments</th>
+		    </tr>
+		  </thead>
+		  <tbody>
+           {%for alluserposts in page %}
+		    <tr>
+		      <th scope="row">{{forloop.counter}}</th>
+		      <td class="w-25">
+			      <img src="{{alluserposts.image.url}}" class="img-fluid img-thumbnail" alt="Sheep">
+		      </td>
+                 <td>
+                {%for bloguserdetails in blog_userdetails %}
+
+                        {% if bloguserdetails.username == alluserposts.username %}
+		     {{bloguserdetails.firstname}}{{bloguserdetails.lastname}}</br>
+                      {% endif %}
+                  {% endfor %}
+		      {{alluserposts.title}}</br>
+		      {{alluserposts.content}}
+               <div class="scroll">
+                   {%for comments in user_comments %}
+
+                        {% if comments.blogid == alluserposts.id %}
+                   <p>    {{comments.date_cmnt_posted}}:Posted by:{{comments.firstname}} {{comments.lastname}}<br>
+                   Comment:{{comments.comment}}</p>
+                         {% endif %}
+                   <hr>
+                   </br>
+                    {% endfor %}
+               </div>
+               <div style="width:300px;">
+<!--               <input type="text" class="form-control" id="comment" name="comment" placeholder="Enter comment" width="200">-->
+
+                <a href="{%url 'postcomments' alluserposts.id %}" class="btn btn-primary btn-sm">Add Comment</a>
+               </div>
+              </td>
+                {%for comments in user_comments %}
+
+                        {% if comments.blogid == alluserposts.id %}
+		      <td>{{user_comments.count}}</td>
+                    {% endif %}
+                {% endfor %}
+		    </tr>
+              {%endfor%}
+		  </tbody>
+		</table>
+        <nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {%if page.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page.prevoius_page_number}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    {% for num in page.paginator.page_range%}
+    <li class="page-item {% if page_number == num %} activate {% endif %}">
+      <a class="page-link" href="?page={{num}}">{{num}}</a>
+    </li>
+    {% endfor %}
+
+     {%if page.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page.next_page_number}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+    </div>
+  </div>
+</div>
+<style>
+     div.scroll {
+           margin: 5px;
+            padding: 5px;
+            background-color: #e7f0e9;
+            width: 500px;
+            height: 110px;
+            overflow-x: auto;
+            overflow-y: auto;
+            text-align: justify;
+        }
+    </style>
+</style>
+{% endblock %}

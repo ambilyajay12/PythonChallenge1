@@ -1,0 +1,58 @@
+{% extends 'user/base1.html' %}
+{% load static %}
+{% block content %}
+ <h5 class="card-title"> Details</h5>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">PosID</th>
+      <th scope="col">Title</th>
+      <th scope="col">Content</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%for blogpost in page %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{blogpost.id}}</td>
+      <td>{{blogpost.title}}</td>
+      <td>{{blogpost.content}}</td>
+
+      <td>
+            <a href="{%url 'blogdetails' blogpost.id%}" class="btn btn-outline-primary">Details</a>
+             <a href="{%url 'updateblog' blogpost.id%}" class="btn btn-outline-success">Update</a>
+              <a href="{%url 'deleteblog' blogpost.id%}" class="btn btn-outline-danger">Delete</a>
+      </td>
+    </tr>
+  {%endfor%}
+  </tbody>
+</table>
+
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    {%if page.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page.prevoius_page_number}}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    {% endif %}
+    {% for num in page.paginator.page_range%}
+    <li class="page-item {% if page_number == num %} activate {% endif %}">
+      <a class="page-link" href="?page={{num}}">{{num}}</a>
+    </li>
+    {% endfor %}
+
+     {%if page.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{page.next_page_number}}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{% endblock %}

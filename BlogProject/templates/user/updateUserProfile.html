@@ -1,0 +1,30 @@
+{% extends 'user/base1.html' %}
+{% load static %}
+{% block content %}
+{% for msg in messages %}
+{{msg}}
+{% endfor%}
+<form action="" method="post">
+  {% csrf_token %}
+
+
+            <div class="form-group">
+                <input type="text" class="form-control item" id="firstname" placeholder="Firstname" name="firstname" value="{{userdetails.firstname}}" required>
+            </div>
+             <div class="form-group">
+                <input type="text" class="form-control item" id="lastname" placeholder="Lastname" name="lastname" value="{{userdetails.lastname}}" required>
+            </div>
+             <div class="form-group">
+                <input type="text" class="form-control item" id="email" placeholder="Email" name="email" value="{{userdetails.email}}" required>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control item" id="contactno" placeholder="ContactNo" name="contactno" value="{{userdetails.contactno}}" required>
+            </div>
+
+
+            <div class="form-group">
+              <input type="submit" class="btn btn-primary" value="Submit" onclick="showAlert()">
+            </div>
+        </form>
+
+{% endblock%}
